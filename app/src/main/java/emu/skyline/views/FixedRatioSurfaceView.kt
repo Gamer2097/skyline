@@ -17,13 +17,13 @@ class FixedRatioSurfaceView @JvmOverloads constructor(context : Context, attrs :
         aspectRatio = ratio?.toFloat() ?: 0f
     }
 
-    override fun onMeasure(widthMeasureSpec : Int, heightMeasureSpec : Int) {
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val width = MeasureSpec.getSize(widthMeasureSpec)
         val height = MeasureSpec.getSize(heightMeasureSpec)
         if (aspectRatio != 0f) {
-            val newWidth : Int
-            val newHeight : Int
+            val newWidth: Int
+            val newHeight: Int
             if (height * aspectRatio < width) {
                 newWidth = (height * aspectRatio).roundToInt()
                 newHeight = height
@@ -31,9 +31,11 @@ class FixedRatioSurfaceView @JvmOverloads constructor(context : Context, attrs :
                 newWidth = width
                 newHeight = (width / aspectRatio).roundToInt()
             }
-            setMeasuredDimension(newWidth, newHeight)
+            val left = (width - newWidth) / 2
+            val top = (height - newHeight) / 2
+            setLeftTopRightBottom(left, top, left + newWidth, top + newHeight)
         } else {
-            setMeasuredDimension(width, height)
+            setLeftTopRightBottom(0, 0, width, height)
         }
     }
 }
